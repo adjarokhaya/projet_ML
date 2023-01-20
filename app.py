@@ -143,7 +143,7 @@ def create_figure():
 
     img = BytesIO()
 
-    # Créer un graphique à barres avec Seaborn
+    # Créer un graphique à barres avec Seaborn de détection de couleur
     sns.barplot(x='color', y='pixels', data=df)
 
     # nuage de point
