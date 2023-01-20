@@ -145,6 +145,7 @@ def create_figure():
 
     # Créer un graphique à barres avec Seaborn
     sns.barplot(x='color', y='pixels', data=df)
+
     # nuage de point
     #sns.relplot(data=df, x='color', y='pixels', kind='scatter', col='color')
     #sns.pairplot(df, hue='color')
