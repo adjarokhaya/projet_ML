@@ -1,0 +1,8 @@
+
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    adressemail TEXT NOT NULL,
+    mdp TEXT NOT NULL
+);

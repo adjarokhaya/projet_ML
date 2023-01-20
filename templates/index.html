@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Welcome to FlaskBlog {% endblock %}</h1>
+     <form action="/login" method="post">
+            Adresse mail:<input type="email" name="mail"><br><br><br>
+            Mot de passe :<input type="password" name="mdp"><br><br>
+            <input type="Submit"  value="Submit">
+     </form>
+{% endblock %}
