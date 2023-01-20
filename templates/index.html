@@ -1,10 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Welcome to FlaskBlog {% endblock %}</h1>
-     <form action="/login" method="post">
-            Adresse mail:<input type="email" name="mail"><br><br><br>
-            Mot de passe :<input type="password" name="mdp"><br><br>
-            <input type="Submit"  value="Submit">
-     </form>
+    <h1 class="text-center font-weight-bold my-5">{% block title %} Bienvenue sur DesignPicker {% endblock %}</h1>
+    <div class="container my-5">
+        <form class="p-5 shadow rounded" action="/login" method="post">
+            <div class="form-group">
+                <label for="email" class="text-secondary">Adresse mail</label>
+                <input class="form-control" type="email" name="mail" id="email" placeholder="Entrez votre adresse mail">
+            </div>
+            <div class="form-group">
+                <label for="password" class="text-secondary">Mot de passe</label>
+                <input class="form-control" type="password" name="mdp" id="password" placeholder="Entrez votre mot de passe">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Se connecter</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}

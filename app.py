@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask, render_template, request
 import base64
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 import seaborn as sns
 import cv2
 import pandas as pd
@@ -32,11 +32,13 @@ def login():
         img = create_figure()
         plot_url = base64.b64encode(img.getvalue())
 
+        print(plot_url)
+
         return render_template('home.html', plot_url=plot_url.decode())
     else:
        return render_template('index.html')
 
-@app.route('/plot.png')
+
 def create_figure():
     # Charger l'image
     img = cv2.imread("dress.jpg")
@@ -144,8 +146,8 @@ def create_figure():
     # Créer un graphique à barres avec Seaborn
     sns.barplot(x='color', y='pixels', data=df)
     # nuage de point
-    sns.relplot(data=df, x='color', y='pixels', kind='scatter', col='color')
-    sns.pairplot(df, hue='color')
+    #sns.relplot(data=df, x='color', y='pixels', kind='scatter', col='color')
+    #sns.pairplot(df, hue='color')
 
     plt.savefig(img, format='png')
     plt.close()
