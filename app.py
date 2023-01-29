@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import base64
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -7,6 +7,7 @@ import cv2
 import pandas as pd
 from io import BytesIO
 import base64
+import os
 
 
 app = Flask(__name__)
@@ -155,6 +156,21 @@ def create_figure():
     img.seek(0)
     return img
 
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    # Récupération de l'image téléchargée
+    image = request.files['image']
+    # Enregistrement de l'image dans un dossier local
+    image.save(os.path.join('uploads', image.filename))
+    # connexion à la bdd
+    conn = get_db_connection()
+    # Insertion des informations de l'image dans la table
+    conn.execute("INSERT INTO images (nom_image, path) VALUES (?,?)", (image.filename, os.path.join('uploads', image.filename)))
+    # Enregistrement des modifications et fermeture de la connexion
+    conn.commit()
+    conn.close()
+    return jsonify({'message': 'Image uploaded successfully'})
 
 
 if __name__ == '__main__':
