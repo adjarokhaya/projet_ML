@@ -24,4 +24,6 @@ comptes = comptes[comptes/comptes.sum() * 100 > 5]
 plt.pie(comptes, labels=comptes.index, colors=colors, autopct='%0.0f%%')
 plt.legend(loc='right', bbox_to_anchor=(1.25, 0.5), labelspacing=1.5)
 plt.title("La répartition des vêtements pour Homme")
+
+sns.catplot( x='masterCategory', y='gender', data=styles, hue='season')
 plt.show()

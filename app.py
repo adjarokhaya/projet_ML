@@ -46,7 +46,11 @@ def login():
         plot_url3 = base64.b64encode(img3.getvalue())
         print(plot_url3)
 
-        return render_template('home.html', plot_url=plot_url.decode(), plot_url1=plot_url1.decode(), plot_url2=plot_url2.decode(), plot_url3=plot_url3.decode())
+        img4 = create_data_viz3()
+        plot_url4 = base64.b64encode(img4.getvalue())
+        print(plot_url4)
+
+        return render_template('home.html', plot_url=plot_url.decode(), plot_url1=plot_url1.decode(), plot_url2=plot_url2.decode(), plot_url3=plot_url3.decode(), plot_url4=plot_url4.decode())
     else:
        return render_template('index.html')
 
@@ -123,6 +127,20 @@ def create_data_viz2():
     plt.close()
     img3.seek(0)
     return img3
+
+def create_data_viz3():
+    DATASET_PATH = './data_viz/'
+    styles = pd.read_csv(os.path.join(DATASET_PATH, "styles.csv"), error_bad_lines=False)
+
+    #sns.catplot(x='gender', y='year', data=styles, hue='season')
+    sns.pairplot(styles, hue='gender')
+
+    img4 = BytesIO()
+
+    plt.savefig(img4, format='png')
+    plt.close()
+    img4.seek(0)
+    return img4
 
 def create_figure():
     # Charger l'image
