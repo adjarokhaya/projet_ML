@@ -32,12 +32,59 @@ def login():
     if user:
         img = create_figure()
         plot_url = base64.b64encode(img.getvalue())
-
         print(plot_url)
 
-        return render_template('home.html', plot_url=plot_url.decode())
+        img1 = create_data_viz()
+        plot_url1 = base64.b64encode(img1.getvalue())
+        print(plot_url1)
+
+        return render_template('home.html',plot_url=plot_url.decode(),  plot_url1=plot_url1.decode())
     else:
        return render_template('index.html')
+
+def create_data_viz():
+    DATASET_PATH = './data_viz/'
+    styles = pd.read_csv(os.path.join(DATASET_PATH, "styles.csv"), error_bad_lines=False)
+
+    # Afficher le graphique en utilisant le type de graphique camembert
+    sns.catplot(x="gender", kind="count", data=styles, aspect=1.5)
+
+    img1 = BytesIO()
+
+    plt.savefig(img1, format='png')
+    plt.close()
+    img1.seek(0)
+    return img1
+
+def create_data_viz1():
+    DATASET_PATH = './'
+    styles = pd.read_csv(os.path.join(DATASET_PATH, "styles.csv"), error_bad_lines=False)
+
+    # Sélectionner les colonnes souhaitées
+    colonnes_voulues = ['gender', 'articleType']
+    df_filtre = styles[colonnes_voulues]
+
+    # Filtrer les lignes selon une colonne particulière (ici "gender")
+    df_filtre = df_filtre[df_filtre['gender'] == 'Men']
+
+    # Compter le nombre d'occurrences de chaque articleType pour les articles masculins
+    comptes = df_filtre['articleType'].value_counts()
+
+    colors = sns.color_palette('bright')
+
+    # Filtrer les comptes pour n'afficher que les pourcentages plus de 5%
+    comptes = comptes[comptes / comptes.sum() * 100 > 5]
+
+    plt.pie(comptes, labels=comptes.index, colors=colors, autopct='%0.0f%%')
+    plt.legend(loc='right', bbox_to_anchor=(1.25, 0.5), labelspacing=1.5)
+    plt.title("La répartition des vêtements pour Homme")
+
+    img2 = BytesIO()
+
+    plt.savefig(img2, format='png')
+    plt.close()
+    img2.seek(0)
+    return img2
 
 
 def create_figure():
