@@ -38,7 +38,11 @@ def login():
         plot_url1 = base64.b64encode(img1.getvalue())
         print(plot_url1)
 
-        return render_template('home.html',plot_url=plot_url.decode(),  plot_url1=plot_url1.decode())
+        img2 = create_data_viz1()
+        plot_url2 = base64.b64encode(img2.getvalue())
+        print(plot_url2)
+
+        return render_template('home.html', plot_url=plot_url.decode(), plot_url1=plot_url1.decode(), plot_url2=plot_url2.decode())
     else:
        return render_template('index.html')
 
@@ -57,7 +61,7 @@ def create_data_viz():
     return img1
 
 def create_data_viz1():
-    DATASET_PATH = './'
+    DATASET_PATH = './data_viz/'
     styles = pd.read_csv(os.path.join(DATASET_PATH, "styles.csv"), error_bad_lines=False)
 
     # Sélectionner les colonnes souhaitées
