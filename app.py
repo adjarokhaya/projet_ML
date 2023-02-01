@@ -42,7 +42,11 @@ def login():
         plot_url2 = base64.b64encode(img2.getvalue())
         print(plot_url2)
 
-        return render_template('home.html', plot_url=plot_url.decode(), plot_url1=plot_url1.decode(), plot_url2=plot_url2.decode())
+        img3 = create_data_viz2()
+        plot_url3 = base64.b64encode(img3.getvalue())
+        print(plot_url3)
+
+        return render_template('home.html', plot_url=plot_url.decode(), plot_url1=plot_url1.decode(), plot_url2=plot_url2.decode(), plot_url3=plot_url3.decode())
     else:
        return render_template('index.html')
 
@@ -90,6 +94,35 @@ def create_data_viz1():
     img2.seek(0)
     return img2
 
+def create_data_viz2():
+    DATASET_PATH = './data_viz/'
+    styles = pd.read_csv(os.path.join(DATASET_PATH, "styles.csv"), error_bad_lines=False)
+
+    # Sélectionner les colonnes souhaitées
+    colonnes_voulues = ['gender', 'articleType']
+    df_filtre = styles[colonnes_voulues]
+
+    # Filtrer les lignes selon une colonne particulière (ici "gender")
+    df_filtre = df_filtre[df_filtre['gender'] == 'Women']
+
+    # Compter le nombre d'occurrences de chaque articleType pour les articles masculins
+    comptes = df_filtre['articleType'].value_counts()
+
+    colors = sns.color_palette('bright')
+
+    # Filtrer les comptes pour n'afficher que les pourcentages plus de 5%
+    comptes = comptes[comptes / comptes.sum() * 100 > 5]
+
+    plt.pie(comptes, labels=comptes.index, colors=colors, autopct='%0.0f%%')
+    plt.legend(loc='right', bbox_to_anchor=(1.25, 0.5), labelspacing=1.5)
+    plt.title("La répartition des vêtements pour les Femme")
+
+    img3 = BytesIO()
+
+    plt.savefig(img3, format='png')
+    plt.close()
+    img3.seek(0)
+    return img3
 
 def create_figure():
     # Charger l'image
