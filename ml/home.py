@@ -55,6 +55,16 @@ def recommend(features, feature_list):
     distances, indices = neighbors.kneighbors([features])
 
     st.set_option('deprecation.showPyplotGlobalUse', False)
+    st.markdown(
+        "Design-Picker data-visualisation"
+    )
+    # histograme pour la distance
+    plt.figure(figsize=(10, 5))
+    sns.histplot(distances[0], kde=False)
+    plt.xlabel("Distance")
+    plt.ylabel("Nombre de vêtements")
+    plt.title("Histogramme des distances des vêtements les plus proches")
+    st.pyplot()
     return indices
 
 
