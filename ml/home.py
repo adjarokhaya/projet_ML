@@ -80,7 +80,13 @@ def recommend(features, feature_list):
     st.markdown(
         "Nuage de point representant l'ensemble des images de mon fichier plk afin visaliser ou se trouve mes images sur le graph"
     )
-
+    # seaborn pour le graph kes valeur les plus proche
+    pca = PCA(n_components=2)
+    reduced_features = pca.fit_transform(feature_list)
+    plt.scatter(reduced_features[:, 0], reduced_features[:, 1])
+    for i in indices[0][1:]:
+        plt.scatter(reduced_features[i, 0], reduced_features[i, 1], color='red')
+    st.pyplot()
     return indices
 
 
