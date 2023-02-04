@@ -65,6 +65,22 @@ def recommend(features, feature_list):
     plt.ylabel("Nombre de vêtements")
     plt.title("Histogramme des distances des vêtements les plus proches")
     st.pyplot()
+
+    # plus proches des voisin
+    plt.figure(figsize=(10, 5))
+    sns.barplot(x=np.arange(5), y=distances[0][1:], palette="deep")
+    plt.xlabel("Index des vêtements les plus proches")
+    plt.ylabel("Distance")
+    plt.title("Barplot des distances des 5 vêtements les plus proches")
+    st.pyplot()
+
+    np.random.seed(0)
+    data = np.random.normal(size=(20, 6)) + np.arange(6) / 2
+
+    st.markdown(
+        "Nuage de point representant l'ensemble des images de mon fichier plk afin visaliser ou se trouve mes images sur le graph"
+    )
+
     return indices
 
 
