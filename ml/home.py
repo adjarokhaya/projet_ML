@@ -11,6 +11,9 @@ from sklearn.neighbors import NearestNeighbors
 from numpy.linalg import norm
 import seaborn as sns
 import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.decomposition import PCA
+
 
 feature_list = np.array(pickle.load(open('embeddings.pkl', 'rb')))
 filenames = pickle.load(open('filenames.pkl', 'rb'))
@@ -23,17 +26,20 @@ model = tensorflow.keras.Sequential([
     GlobalMaxPooling2D()
 ])
 
-st.title('Projet ML')
 
+st.title('Design picker')
+st.markdown(
+    "Design-Picker une application Web qui permet aux utilisateurs de trouver des vêtements similaires à partir d'une photo/image qu'ils ont téléchargée. L'utilisateur peut prendre une photo d'un vêtement qu'il voit dans la rue, la télécharger sur le site web, et l'application renverra une liste de vêtements similaires à partir de notre base de données."
+            )
 def save_uploaded_file(uploaded_file):
     try:
-        with open(os.path.join('uploads', uploaded_file.name), 'wb') as f:
+        with open(os.path.join('uploads',uploaded_file.name),"wb") as f:
             f.write(uploaded_file.getbuffer())
         return 1
     except:
         return 0
 
-def feature_extraction(img_path, model):
+def feature_extraction(img_path,model):
     img = image.load_img(img_path, target_size=(224, 224))
     img_array = image.img_to_array(img)
     expanded_img_array = np.expand_dims(img_array, axis=0)
@@ -48,31 +54,25 @@ def recommend(features, feature_list):
     neighbors.fit(feature_list)
     distances, indices = neighbors.kneighbors([features])
 
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     return indices
 
 
-uploaded_file = st.file_uploader("Choisir une image")
+uploaded_file = st.file_uploader("Choisir une image", type=["jpg", "jpeg", "png"])
 if uploaded_file is not None:
     if save_uploaded_file(uploaded_file):
         display_image = Image.open(uploaded_file)
-        st.image(display_image)
+        st.image(display_image, caption="Image sélectionnée", use_column_width=True)
 
         features = feature_extraction(os.path.join("uploads", uploaded_file.name), model)
 
         indices = recommend(features, feature_list)
 
-        col1, col2, col3, col4, col5 = st.beta_columns(5)
+        st.header("Les 5 images les plus proches :")
 
-        with col1:
-            st.image(filenames[indices[0][0]])
-        with col2:
-            st.image(filenames[indices[0][1]])
-        with col3:
-            st.image(filenames[indices[0][2]])
-        with col4:
-            st.image(filenames[indices[0][3]])
-        with col5:
-            st.image(filenames[indices[0][4]])
+        for index in indices[0]:
+            st.image(filenames[index], use_column_width=True)
     else:
-        st.header("il y a eu une erreur etrange ")
+        st.header("Il y a eu une erreur")
+
 
