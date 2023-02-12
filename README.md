@@ -26,3 +26,13 @@ License
 This project licensed under the Apache License 2.0 - see the LICENSE.md file for details
 
 #Acknowledgments
+
+installation:
+Rentrer dans le fichier ml ensuite run le fichier home.py
+ -> streamlit run home.py
+ 
+ Pour augmenter le fichier pickle:
+ -> dans le fihcier images ajouter vos nouvelle données
+ -> python run app.py 
+ -> il va crée 2 files unbedding.plk et filenames.plk 
+ -> streamlit run home.py
