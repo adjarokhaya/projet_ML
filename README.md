@@ -21,6 +21,7 @@ Please read CONTRIBUTING.md for details on our code of conduct, and the process 
 #Authors
 - RAMIN ERWYN M2 CLA MIAGE
 - ANISORA VIDA M2 CLA MIAGE
+- Adja BBA M2 CLA MIAGE
 
 License
 This project licensed under the Apache License 2.0 - see the LICENSE.md file for details
